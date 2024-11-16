@@ -17,5 +17,7 @@ import { PassportModule } from '@nestjs/passport';
   ],
   controllers: [AuthController],
   providers: [AuthService],
+  exports: [JwtModule, AuthService], // 导出 JwtModule 和 AuthService，以便其他模块使用
 })
 export class AuthModule {}
+

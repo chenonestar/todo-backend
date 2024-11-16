@@ -1,6 +1,7 @@
 import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { RegisterUserDto } from './dto/register-user.dto'; // 导入 DTO
 
 @Controller('auth')
 export class AuthController {
@@ -10,9 +11,9 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() body: { username: string; password: string }) {
-    const { username, password } = body;
-    return this.authService.register(username, password);
+  async register(@Body() body: RegisterUserDto) { // 使用 DTO
+    const { username, email, password } = body;
+    return this.authService.register(username, email, password);
   }
 
   @Post('login')
