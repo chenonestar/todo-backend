@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { User } from '../auth/user.entity';
 
 @Entity()
 export class Todo {
@@ -19,5 +20,11 @@ export class Todo {
 
   @Column({ default: false })
   completed: boolean;
+
+  @ManyToOne(() => User, (user) => user.todos, { onDelete: 'CASCADE' })
+  user: User;
+
+  @Column()
+  userId: number; // 用于存储关联用户的 ID
 }
 

@@ -10,19 +10,21 @@ export class TodoService {
     private readonly todoRepository: Repository<Todo>,
   ) {}
 
-  findAll(): Promise<Todo[]> {
-    return this.todoRepository.find();
+  findAllByUser(userId: number): Promise<Todo[]> {
+    return this.todoRepository.find({ where: { userId } });
   }
 
-  create(todo: Todo): Promise<Todo> {
-    return this.todoRepository.save(todo);
+  create(userId: number, todo: Todo): Promise<Todo> {
+    const newTodo = this.todoRepository.create({ ...todo, userId });
+    return this.todoRepository.save(newTodo);
   }
 
-  async update(id: number, todo: Todo): Promise<void> {
-    await this.todoRepository.update(id, todo);
+  async update(userId: number, id: number, todo: Todo): Promise<void> {
+    await this.todoRepository.update({ id, userId }, todo);
   }
 
-  async remove(id: number): Promise<void> {
-    await this.todoRepository.delete(id);
+  async remove(userId: number, id: number): Promise<void> {
+    await this.todoRepository.delete({ id, userId });
   }
 }
+
